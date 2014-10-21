@@ -1,0 +1,16 @@
+{
+  "name": "superjs-rethink",
+  "author": {
+    "name": "Aaron Storck",
+    "email": "aaronstorck@gmail.com"
+  },
+  "version": "0.0.1",
+  "description": "Brings the power of RethinkDB to Super.JS using the Thinky ORM!",
+  "main": "index.js",
+  "repository": "https://github.com/asleepinglion/superjs-rethink",
+  "dependencies": {
+    "thinky": "^1.15.0",
+    "underscore": "^1.7.0"
+  },
+  "license": "MIT"
+}
