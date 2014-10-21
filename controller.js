@@ -146,7 +146,8 @@ module.exports = Controller.extend({
 
   describe: function(req, callback) {
 
-    var response = {success: true, model: this.model.name, attributes: this.model.attributes};
+    //TODO: translate attributes to text-based equivalents
+    var response = {success: true, model: this.name, attributes: this.model.config.attributes};
     callback(response);
 
   }

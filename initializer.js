@@ -32,6 +32,8 @@ module.exports = Class.extend({
     //loop through connections
     for( var connectName in connections ) {
 
+      console.log('creating connection for: ',connectName);
+
       //establish rethink connection
       app.connections[connectName] = app.thinky(connections[connectName]);
     }
@@ -61,6 +63,7 @@ module.exports = Class.extend({
 
           if( model ) {
             app.models[model.name] = app.connections[model.connection].createModel(model.name, model.attributes, model);
+            app.models[model.name].config = model;
             loadedModels.push(model.name);
           }
         }
@@ -81,6 +84,7 @@ module.exports = Class.extend({
 
         if( model ) {
           app.models[model.name] = app.connections[model.connection].createModel(model.name, model.attributes, model);
+          app.models[model.name].config = model;
           loadedModels.push(model.name);
         }
 
