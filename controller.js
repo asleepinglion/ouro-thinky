@@ -28,7 +28,7 @@ module.exports = Controller.extend({
     //associate model of the same name to this controller if it exists
     var modelName = this.name.toLowerCase();
     if( modelName in this.models )
-      this.model = this.models[modelName];
+      this._model = this.models[modelName];
 
   },
 
@@ -47,7 +47,7 @@ module.exports = Controller.extend({
     console.log('Searching '+this.name+' where:',where);
 
     //search database
-    this.model.filter(where)
+    this._model.filter(where)
       .limit(limit)
       .skip(skip)
       .orderBy(sort)
@@ -68,7 +68,7 @@ module.exports = Controller.extend({
     var obj = req.body || {};
 
     //add record to the database
-    var newDocument = new this.model(obj);
+    var newDocument = new this._model(obj);
     newDocument.saveAll()
       .then(function(result) {
         callback({success: true, message: "Successfully created " + self.name + " record...", results: result});
@@ -93,7 +93,7 @@ module.exports = Controller.extend({
     }
 
     //attempt to get the record
-    this.model.get(obj.id).run()
+    this._model.get(obj.id).run()
       .then(function(model) {
 
         //merge changes and save
@@ -125,7 +125,7 @@ module.exports = Controller.extend({
     }
 
     //attempt to get the record
-    this.model.get(obj.id).run()
+    this._model.get(obj.id).run()
       .then(function(model) {
 
         //delete record
@@ -147,7 +147,7 @@ module.exports = Controller.extend({
   describe: function(req, callback) {
 
     //TODO: translate attributes to text-based equivalents
-    var response = {success: true, model: this.name, attributes: this.model.config.attributes};
+    var response = {success: true, model: this.name, attributes: this._model.config.attributes};
     callback(response);
 
   }
