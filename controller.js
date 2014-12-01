@@ -32,7 +32,7 @@ module.exports = Controller.extend({
 
   },
 
-  Search: function(req, callback) {
+  Search: function(req, next) {
 
     //maintain reference to self
     var self = this;
@@ -53,13 +53,13 @@ module.exports = Controller.extend({
       .orderBy(sort)
       .run()
       .then(function(results) {
-        callback({success: true, message: "Successfully searched the " + self.name + " database...", results: results});
+        next({success: true, message: "Successfully searched the " + self.name + " database...", results: results});
       }).catch( function(err) {
-        callback({success: false, message: "Failed to search the " + self.name + " database...", error: err});
+        next({success: false, message: "Failed to search the " + self.name + " database...", error: err});
       });
   },
 
-  Create: function(req, callback) {
+  Create: function(req, next) {
 
     //maintain reference to self
     var self = this;
@@ -71,15 +71,15 @@ module.exports = Controller.extend({
     var newDocument = new this._model(obj);
     newDocument.saveAll()
       .then(function(result) {
-        callback({success: true, message: "Successfully created " + self.name + " record...", results: result});
+        next({success: true, message: "Successfully created " + self.name + " record...", results: result});
       })
       .catch(function(err) {
-        callback({success: false, message: "Failed to create " + self.name + " record...", error: err});
+        next({success: false, message: "Failed to create " + self.name + " record...", error: err});
       });
 
   },
 
-  Update: function(req, callback) {
+  Update: function(req, next) {
 
     //maintain reference to self
     var self = this;
@@ -88,7 +88,7 @@ module.exports = Controller.extend({
     var obj = req.body || {};
 
     if( _.isEmpty(obj) || _.isEmpty(obj.id) ) {
-      callback({success: false, message: "Failed to update " + self.name + " record...", error: "An id is required to update a record."});
+      next({success: false, message: "Failed to update " + self.name + " record...", error: "An id is required to update a record."});
       return;
     }
 
@@ -99,15 +99,15 @@ module.exports = Controller.extend({
         //merge changes and save
         model.merge(obj).save()
           .then(function(result) {
-            callback({success: true, message: "Successfully updated " + self.name + " record...", results: result});
+            next({success: true, message: "Successfully updated " + self.name + " record...", results: result});
           })
           .catch(function(err) {
-            callback({success: false, message: "Failed to update " + self.name + " record...", error: err});
+            next({success: false, message: "Failed to update " + self.name + " record...", error: err});
           });
 
       })
       .catch(function(err) {
-        callback({success: false, message: "Failed to update " + self.name + " record...", error: err});
+        next({success: false, message: "Failed to update " + self.name + " record...", error: err});
       });
   },
 
@@ -120,7 +120,7 @@ module.exports = Controller.extend({
     var obj = req.body || {};
 
     if(_.isEmpty(obj) || _.isEmpty(obj.id) ) {
-      callback({success: false, message: "Failed to delete " + self.name + " record...", error: "An id is required to delete the record."});
+      next({success: false, message: "Failed to delete " + self.name + " record...", error: "An id is required to delete the record."});
       return;
     }
 
@@ -131,24 +131,24 @@ module.exports = Controller.extend({
         //delete record
         model.delete()
           .then(function(result) {
-            callback({success: true, message: "Successfully deleted " + self.name + " record...", results: result});
+            next({success: true, message: "Successfully deleted " + self.name + " record...", results: result});
           })
           .catch(function(err) {
-            callback({success: false, message: "Failed to delete " + self.name + " record...", error: err});
+            next({success: false, message: "Failed to delete " + self.name + " record...", error: err});
           });
 
       })
       .catch(function(err) {
-        callback({success: false, message: "Failed to delete " + self.name + " record...", error: err});
+        next({success: false, message: "Failed to delete " + self.name + " record...", error: err});
       });
 
   },
 
-  Describe: function(req, callback) {
+  Describe: function(req, next) {
 
     //TODO: translate attributes to text-based equivalents
     var response = {success: true, model: this.name, attributes: this._model.config.attributes};
-    callback(response);
+    next(response);
 
   }
 
