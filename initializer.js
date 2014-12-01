@@ -3,14 +3,13 @@
  */
 
 //require dependencies
-var Class = require('../superjs/core/base'),
-  fs = require('fs');
-
+var Class = require('../superjs/core/base');
+var fs = require('fs');
 
 module.exports = Class.extend({
 
   //initialize the database engine
-  _init: function (app) {
+  init: function (app) {
 
     //store reference to the app
     this.app = app;
@@ -22,15 +21,15 @@ module.exports = Class.extend({
     app.thinky = require('thinky');
 
     //establish connections
-    this._connect();
+    this.connect();
 
     //load models
-    this._loadModels();
+    this.loadModels();
 
   },
 
   //establish thinky connections based on data config
-  _connect: function() {
+  connect: function() {
 
     var connections = this.app.config.data.connections;
 
@@ -47,7 +46,7 @@ module.exports = Class.extend({
   },
 
   //load models by going through module folders
-  _loadModels: function() {
+  loadModels: function() {
 
     this.app.log.info('loading models...');
 
@@ -69,7 +68,7 @@ module.exports = Class.extend({
           var model = require(self.app.appPath+'/modules/'+moduleName+'/model');
 
           if( model ) {
-            self._loadModel(moduleName, model);
+            self.loadModel(moduleName, model);
           }
         }
 
@@ -88,7 +87,7 @@ module.exports = Class.extend({
         var model = require(self.app.appPath+'/models/'+modelName);
 
         if( model ) {
-          self._loadModel(modelName, model);
+          self.loadModel(modelName, model);
         }
 
       });
@@ -100,13 +99,13 @@ module.exports = Class.extend({
   },
 
   //create model with thinky orm
-  _loadModel: function(modelName, model) {
+  loadModel: function(modelName, model) {
 
     //instantiate model
     model = new model();
 
     //convert strings to proper thinky types
-    var attributes = this._convertAttributes(model.attributes);
+    var attributes = this.convertAttributes(model.attributes);
 
     //create the model
     this.app.models[model.name] = this.app.connections[model.connection].createModel(model.name, attributes, model);
@@ -120,7 +119,7 @@ module.exports = Class.extend({
   },
 
   //convert attributes from strings to types
-  _convertAttributes: function(attributes) {
+  convertAttributes: function(attributes) {
 
     //loop through attributes
     for( var name in attributes ) {

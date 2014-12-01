@@ -11,7 +11,7 @@ var Controller = require('../superjs/core/controller'),
 
 module.exports = Controller.extend({
 
-  _init: function(app) {
+  init: function(app) {
 
     //call base class constructor
     this._super(app);
@@ -28,11 +28,11 @@ module.exports = Controller.extend({
     //associate model of the same name to this controller if it exists
     var modelName = this.name.toLowerCase();
     if( modelName in this.models )
-      this._model = this.models[modelName];
+      this.model = this.models[modelName];
 
   },
 
-  search: function(req, callback) {
+  _search: function(req, callback) {
 
     //maintain reference to self
     var self = this;
@@ -47,7 +47,7 @@ module.exports = Controller.extend({
     this.app.log.info('searching '+this.name+' where:',where);
 
     //search database
-    this._model.filter(where)
+    this.model.filter(where)
       .limit(limit)
       .skip(skip)
       .orderBy(sort)
@@ -59,7 +59,7 @@ module.exports = Controller.extend({
       });
   },
 
-  create: function(req, callback) {
+  _create: function(req, callback) {
 
     //maintain reference to self
     var self = this;
@@ -79,7 +79,7 @@ module.exports = Controller.extend({
 
   },
 
-  update: function(req, callback) {
+  _update: function(req, callback) {
 
     //maintain reference to self
     var self = this;
@@ -93,7 +93,7 @@ module.exports = Controller.extend({
     }
 
     //attempt to get the record
-    this._model.get(obj.id).run()
+    this.model.get(obj.id).run()
       .then(function(model) {
 
         //merge changes and save
@@ -125,7 +125,7 @@ module.exports = Controller.extend({
     }
 
     //attempt to get the record
-    this._model.get(obj.id).run()
+    this.model.get(obj.id).run()
       .then(function(model) {
 
         //delete record
