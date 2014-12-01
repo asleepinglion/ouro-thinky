@@ -44,7 +44,7 @@ module.exports = Controller.extend({
     var skip = req.param('skip') || 0;
 
     //TODO: devise mechanism to translate conditionals into proper rethink filter calls...
-    console.log('Searching '+this.name+' where:',where);
+    this.app.log.info('searching '+this.name+' where:',where);
 
     //search database
     this._model.filter(where)

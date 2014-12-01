@@ -39,7 +39,7 @@ module.exports = Class.extend({
     //loop through connections
     for( var connectName in connections ) {
 
-      console.log('creating connection for: ',connectName);
+      this.app.log.info('creating connection for:',connectName);
 
       //establish rethink connection
       this.app.connections[connectName] = this.app.thinky(connections[connectName]);
@@ -49,7 +49,7 @@ module.exports = Class.extend({
   //load models by going through module folders
   _loadModels: function() {
 
-    console.log('loading models...');
+    this.app.log.info('loading models...');
 
     //maintain reference to self
     var self = this;
@@ -95,7 +95,7 @@ module.exports = Class.extend({
 
     }
 
-    console.log('models loaded:',this.loadedModels);
+    this.app.log.info('models loaded:',this.loadedModels);
 
   },
 
