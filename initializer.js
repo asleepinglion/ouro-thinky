@@ -104,6 +104,11 @@ module.exports = Class.extend({
     //instantiate model
     model = new model();
 
+    //set name if not present
+    if( !model.name ) {
+      model.name = modelName;
+    }
+
     //convert strings to proper thinky types
     var attributes = this.convertAttributes(model.attributes);
 
