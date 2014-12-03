@@ -28,4 +28,4 @@ SuperJS Thinky Engine - Rethink ORM
 module.exports.Initializer = require('./initializer');
 module.exports.Thinky = require('thinky');
 module.exports.Controller = require('./controller');
-module.exports.Model = require('../superjs/core/base');
+module.exports.Model = require('superjs-base');
